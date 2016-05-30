@@ -11,7 +11,7 @@ class UserManager(BaseUserManager):
         """
         email = self.normalize_email(email)
         user = self.model(username=username, email=email, is_superuser=is_superuser, avatar=avatar,
-                          **extra_fields)
+                          role=role, **extra_fields)
         user.set_password(password)
         user.save(using=self._db)
         return user
@@ -31,8 +31,8 @@ class UserManager(BaseUserManager):
 # 创建了自定义的User,也必须要创建自定义的UserManager
 class User(AbstractBaseUser, PermissionsMixin):
     email = models.EmailField('注册邮箱', unique=True, db_index=True)
-    username = models.CharField('昵称', max_length=255, db_index=True)
-    password = models.CharField('password', max_length=128, null=True, blank=True)
+    username = models.CharField('昵称', max_length=255, db_index=True, null=True, blank=True)
+
     score = models.IntegerField('积分', default=0)
     coin = models.IntegerField('硬币', default=0)
 
@@ -46,8 +46,11 @@ class User(AbstractBaseUser, PermissionsMixin):
 
     role = models.IntegerField('角色', choices=ROLES_CHOICES)
 
-    USERNAME_FIELD = 'username'
-    REQUIRED_FIELDS = ['email']
+    USERNAME_FIELD = 'email'
+
+    REQUIRED_FIELDS = ['username']
+
+    objects = UserManager()
 
     # '-' 表示倒序
     class Meta:
@@ -61,6 +64,9 @@ class User(AbstractBaseUser, PermissionsMixin):
 
     def is_guest(self):
         return self.role == Roles.Guest
+
+    def __str__(self):
+        return "%s(%s)" % (self.username, self.email)
 
 
 class OauthManager(BaseUserManager):

@@ -1,13 +1,18 @@
+from django.db.transaction import non_atomic_requests
 from rest_framework import (
     viewsets,
     status
 )
+from rest_framework.decorators import list_route
 from rest_framework.permissions import AllowAny
 from rest_framework.response import Response
 
 from discuss.models import Discuss
 from discuss.paginations import DiscussPagination
-from discuss.serializers import DiscussSampleSerializer, GuestDiscussSerializer, DiscussSerializer
+from discuss.serializers import DiscussAuthCreateSerializer, GuestDiscussCreateSerializer, DiscussSerializer
+from sendcloud.constants import SendCloudTemplates
+from sendcloud.utils import sendcloud_template
+from users.models import User
 
 
 class DiscussViewSet(viewsets.GenericViewSet):
@@ -16,18 +21,41 @@ class DiscussViewSet(viewsets.GenericViewSet):
     queryset = Discuss.objects.all()
     pagination_class = DiscussPagination
 
+    @list_route(methods=['get'])
+    def ttt(self, request, *args, **kwargs):
+        sendcloud_template(to=['670425438@qq.com'],
+                           tpt_ivk_name='test_template_active',
+                           sub_vars='{"%name%": ["Ben"]}')
+        return Response('123', status=status.HTTP_201_CREATED)
+
+    @non_atomic_requests
     def create(self, request, *args, **kwargs):
         # Guest 用户
         if request.user.is_anonymous():
-            serializer = GuestDiscussSerializer(data=request.data)
+            serializer = GuestDiscussCreateSerializer(data=request.data)
             serializer.is_valid(raise_exception=True)
-            pass
+            if not User.objects.filter(email=serializer.data['email']).exists():
+                if sendcloud_template(to=[serializer.data['email']],
+                                      tpt_ivk_name=SendCloudTemplates.Test,
+                                      sub_vars={'name': [serializer.data['username']]}):
+                    user = User.objects.create_guest(serializer.data['username'],
+                                                     serializer.data['email'])
+                    discuss = Discuss.objects.create_discuss(user=user, content=serializer.data['content'],
+                                                             post_url=serializer.data['post_url'])
+                else:
+                    return Response({'message', '403001 发送验证邮件失败'},
+                                    status=status.HTTP_403_FORBIDDEN)
+            else:
+                return Response({'message', '403002 用户已注册, 请先登陆'},
+                                status=status.HTTP_403_FORBIDDEN)
         # 注册用户
         else:
-            serializer = DiscussSampleSerializer(data=request.data)
+            serializer = DiscussAuthCreateSerializer(data=request.data)
             serializer.is_valid(raise_exception=True)
-            pass
-        return Response(serializer.data, status=status.HTTP_201_CREATED)
+            discuss = Discuss.objects.create_discuss(user=request.user,
+                                                     content=serializer.data['content'],
+                                                     post_url=serializer.data['post_url'])
+        return Response(self.get_serializer(instance=discuss).data, status=status.HTTP_201_CREATED)
 
     def destroy(self, request, *args, **kwargs):
         instance = self.get_object()

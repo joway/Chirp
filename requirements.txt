@@ -1,0 +1,6 @@
+requests
+Django==1.9.6
+djangorestframework==3.3.3
+djangorestframework-jwt==1.8.0
+PyJWT==1.4.0
+shortuuid==0.4.3
