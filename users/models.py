@@ -35,6 +35,8 @@ class User(AbstractBaseUser, PermissionsMixin):
     score = models.IntegerField('积分', default=0)
     coin = models.IntegerField('硬币', default=0)
 
+    is_staff = models.BooleanField('管理员', default=False)
+
     avatar = models.URLField('头像', max_length=255, blank=True, null=True)
 
     create_at = models.DateTimeField('创建时间', auto_now_add=True)

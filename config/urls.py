@@ -5,10 +5,8 @@ from rest_framework_jwt.views import obtain_jwt_token, refresh_jwt_token, verify
 from config.router import router
 
 urlpatterns = [
-    # Examples:
-    # url(r'^$', 'config.views.home', name='home'),
-    # url(r'^blog/', include('blog.urls')),
-
+    url(r'^jet/', include('jet.urls', 'jet')),  # Django JET URLS
+    url(r'^jet/dashboard/', include('jet.dashboard.urls', 'jet-dashboard')),  # Django JET dashboard URLS
     url(r'^admin/', include(admin.site.urls)),
     url(r"^", include(router.urls)),
     url(r'^oauth/', include('social.apps.django_app.urls', namespace='social')),
