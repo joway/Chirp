@@ -11,6 +11,8 @@
     <title>评论列表 - PlaneUI 组件示例</title>
 
     <link rel="stylesheet" type="text/css" href="dist/css/planeui.css"/>
+    <link rel="stylesheet" type="text/css" href="css/style.css"/>
+
 </head>
 <body>
 <div class="pui-layout" style="width:96%;">
@@ -18,7 +20,7 @@
     <h4 class="h4">评论列表</h4>
     <div class="pui-comment pui-comment-avatar-left">
         <div class="pui-comment-avatar">
-            <img src="logo/17.jpg" class="pui-img-circle pui-img-xs"/>
+            <img src="logo/avatar.jpg" class="pui-img-circle pui-img-xs"/>
             <p>网友</p>
         </div>
         <div class="pui-comment-container">
@@ -39,7 +41,7 @@
                 <div class="pui-comment pui-comment-avatar-left">
                     <div class="pui-comment-arrow"><span></span></div>
                     <div class="pui-comment-avatar">
-                        <img src="logo/17.jpg" class="pui-img-circle pui-img-xs"/>
+                        <img src="logo/avatar.jpg" class="pui-img-circle pui-img-xs"/>
                         <p>网友</p>
                     </div>
                     <div class="pui-comment-container">
@@ -61,7 +63,7 @@
                 <div class="pui-comment pui-comment-avatar-left">
                     <div class="pui-comment-arrow"><span></span></div>
                     <div class="pui-comment-avatar">
-                        <img src="logo/17.jpg" class="pui-img-circle pui-img-xs"/>
+                        <img src="logo/avatar.jpg" class="pui-img-circle pui-img-xs"/>
                         <p>网友</p>
                     </div>
                     <div class="pui-comment-container">
@@ -86,19 +88,20 @@
 
     <div class="pui-form-group">
         <label>主要内容：</label>
-        <textarea class="pui-input-border-error" style="height: 20%"></textarea>
+        <label class="chirp-username"><a href="#">Joway</a></label>
+        <textarea class="pui-input-border-error chirp-comment-textarea"></textarea>
     </div>
     <div class="pui-form-group">
-        <a href="#">
+        <a href="#" class="chirp-social-oauth">
             <img src="logo/sina.png" alt="Sina" width="30">
         </a>
-        <a href="#">
+        <a href="#" class="chirp-social-oauth">
             <img src="logo/qq.png" alt="QQ" width="30">
         </a>
-        <a href="#">
+        <a href="#" class="chirp-social-oauth">
             <img src="logo/github.png" alt="Github" width="26">
         </a>
-        <a href="#">
+        <a href="#" class="chirp-social-oauth">
             <img src="logo/google.png" alt="Github" width="26">
         </a>
 

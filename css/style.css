@@ -1,0 +1,14 @@
+.chirp-comment-textarea {
+    height: 20%;
+}
+
+.chirp-social-oauth {
+    margin: 3px;
+    width: 32px;
+}
+
+.chirp-username {
+    float: right;
+    margin-right: 10px;
+    font-weight: 600;
+}
