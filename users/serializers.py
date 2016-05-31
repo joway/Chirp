@@ -6,7 +6,16 @@ from users.models import User
 class UserRegistrationSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
-        fields = ('email', 'password', 'username')
+        fields = ('email', 'username')
+
+
+class UserLoginSerializer(serializers.Serializer):
+    email = serializers.EmailField()
+    password = serializers.CharField(max_length=128)
+
+
+class UserActivateSerializer(serializers.Serializer):
+    confirm = serializers.CharField(max_length=32)
 
 
 class UserSampleSerializer(serializers.ModelSerializer):

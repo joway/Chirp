@@ -46,13 +46,14 @@ INSTALLED_APPS = (
     'rest_framework',
     'jet.dashboard',
     'jet',
-
+    'social.apps.django_app.default',
 )
 
 MIDDLEWARE_CLASSES = (
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
+    'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.auth.middleware.SessionAuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
@@ -73,6 +74,8 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'social.apps.django_app.context_processors.backends',
+                'social.apps.django_app.context_processors.login_redirect',
             ],
         },
     },
@@ -127,7 +130,7 @@ REST_FRAMEWORK = {
 JWT_AUTH = {
     'JWT_ENCODE_HANDLER': 'rest_framework_jwt.utils.jwt_encode_handler',
     'JWT_DECODE_HANDLER': 'rest_framework_jwt.utils.jwt_decode_handler',
-    'JWT_PAYLOAD_HANDLER': 'utils.jwt.jwt_payload_handler',
+    'JWT_PAYLOAD_HANDLER': 'rest_framework_jwt.utils.jwt_payload_handler',
     'JWT_PAYLOAD_GET_USER_ID_HANDLER': 'rest_framework_jwt.utils.jwt_get_user_id_from_payload_handler',
     'JWT_RESPONSE_PAYLOAD_HANDLER': 'rest_framework_jwt.utils.jwt_response_payload_handler',
     'JWT_SECRET_KEY': SECRET_KEY,
@@ -152,3 +155,12 @@ try:
     from .local_settings import *
 except ImportError:
     pass
+
+AUTHENTICATION_BACKENDS = (
+    'social.backends.qq.QQOAuth2',
+    'social.backends.github.GithubOAuth2',
+    'users.oauth.CodingOAuth2',
+    'django.contrib.auth.backends.ModelBackend',
+)
+
+DOMAIN_URL = 'http://joway.tunnel.phpor.me'

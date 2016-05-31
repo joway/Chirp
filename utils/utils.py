@@ -18,3 +18,4 @@ def get_uuid(length):
 
 def format_url(url):
     return url
+

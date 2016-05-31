@@ -1,7 +1,7 @@
 """
 Coding OAuth2 backend, docs at:
 """
-from six.moves.urllib.parse import urljoin
+from urllib.parse import urljoin
 
 from social.backends.oauth import BaseOAuth2
 
@@ -43,3 +43,6 @@ class CodingOAuth2(BaseOAuth2):
     def _user_data(self, access_token, path=None):
         url = urljoin(self.api_url(), 'account/current_user{0}'.format(path or ''))
         return self.get_json(url, params={'access_token': access_token})
+
+    def auth_html(self):
+        return '<h1>For test</h1>'

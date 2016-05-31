@@ -1,7 +1,6 @@
 from django.contrib.auth.models import PermissionsMixin, AbstractBaseUser, BaseUserManager
 from django.db import models
-
-from .constants import PROVIDERS_CHOICES, ROLES_CHOICES, Roles
+from .constants import PROVIDERS_CHOICES, ROLES_CHOICES, Roles, ALINK_VERIFY_CODE_LENGTH
 
 
 class UserManager(BaseUserManager):
@@ -40,11 +39,11 @@ class User(AbstractBaseUser, PermissionsMixin):
 
     create_at = models.DateTimeField('创建时间', auto_now_add=True)
 
-    verify_code = models.CharField('验证码', max_length=6, blank=True, null=True)
+    alink_verify_code = models.CharField('激活链接验证码', max_length=ALINK_VERIFY_CODE_LENGTH, blank=True, null=True)
 
-    expire_at = models.DateTimeField('验证码失效时间', blank=True, null=True)
+    last_alink_verify_time = models.DateTimeField('上一次激活链接发送请求验证码请求时间', blank=True, null=True)
 
-    role = models.IntegerField('角色', choices=ROLES_CHOICES)
+    role = models.IntegerField('角色', choices=ROLES_CHOICES, default=Roles.Guest)
 
     USERNAME_FIELD = 'email'
 
@@ -70,17 +69,15 @@ class User(AbstractBaseUser, PermissionsMixin):
 
 
 class OauthManager(BaseUserManager):
-    def create_user(self, username, email, **extra_fields):
+    def create_oauth(self, username, email, **extra_fields):
         """
         Creates and saves a User with the given username, email and password.
         """
-        if not email:
-            raise ValueError('The given email must be set')
         email = self.normalize_email(email)
-        user = self.model(
+        oauth = self.model(
             username=username, email=email, **extra_fields)
-        user.save(using=self._db)
-        return user
+        oauth.save(using=self._db)
+        return oauth
 
 
 # 每个Oauth绑定的帐户都算是一个小的子帐户,拥有从第三方平台获取到的 :
@@ -90,15 +87,13 @@ class Oauth(models.Model):
     username = models.CharField('名称', max_length=32, blank=True)
     email = models.EmailField('邮箱', db_index=True)
     avatar_url = models.URLField('头像url', max_length=255, blank=True)
+
     expire_at = models.DateTimeField('token失效时间', blank=True, null=True)
+
     access_token = models.CharField('access_token', max_length=255, blank=True, null=True)
     refresh_token = models.CharField('refresh_token', max_length=255, blank=True, null=True)
 
     provider = models.IntegerField('类别', choices=PROVIDERS_CHOICES)
-    user = models.ForeignKey(User)
+    user = models.ForeignKey(User, null=True, blank=True)
 
     objects = OauthManager()
-
-    @property
-    def provider_name(self):
-        return provider_name[self.provider]
