@@ -19,13 +19,21 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/1.8/howto/deployment/checklist/
 
-# SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = '+p$6nzend1smn!*etr7k$9*g#$nj!lw#=u2e@ga82sra#nral3'
-
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 
 ALLOWED_HOSTS = ['*']
+
+
+try:
+    from .local_settings import *
+except ImportError:
+    pass
+
+
+# SECURITY WARNING: keep the secret key used in production secret!
+SECRET_KEY = os.environ['SECRET_KEY']
+
 
 # Application definition
 
@@ -151,10 +159,6 @@ POSTS_UUID_LENGTH = 12
 
 AUTH_USER_MODEL = 'users.User'
 
-try:
-    from .local_settings import *
-except ImportError:
-    pass
 
 AUTHENTICATION_BACKENDS = (
     'social.backends.qq.QQOAuth2',
@@ -164,3 +168,46 @@ AUTHENTICATION_BACKENDS = (
 )
 
 DOMAIN_URL = 'http://joway.tunnel.phpor.me'
+
+# mail : sendcloud
+EMAIL_BACKEND = 'sendcloud.SendCloudBackend'
+DEFAULT_FROM_EMAIL = 'admin@joway.wang'
+MAIL_DEBUG = False
+MAIL_APP_USER = os.environ.get('MAIL_APP_USER')
+MAIL_APP_KEY = os.environ.get('MAIL_APP_KEY')
+
+
+# oauth
+SOCIAL_AUTH_ADMIN_USER_SEARCH_FIELDS = ['username', 'email']
+
+SOCIAL_AUTH_USER_MODEL = 'users.Oauth'
+
+SOCIAL_AUTH_PIPELINE = (
+    'social.pipeline.social_auth.social_details',
+    'social.pipeline.social_auth.social_uid',
+    'social.pipeline.social_auth.auth_allowed',
+    'social.pipeline.social_auth.social_user',
+    'social.pipeline.social_auth.associate_user',
+    'social.pipeline.social_auth.load_extra_data',
+    'social.pipeline.user.user_details',
+)
+
+SOCIAL_AUTH_GITHUB_IGNORE_DEFAULT_SCOPE = True
+SOCIAL_AUTH_GITHUB_SCOPE = [
+    'user'
+]
+
+LOGIN_URL = '/login/'
+LOGIN_REDIRECT_URL = '/done/'
+
+
+# oauth
+SOCIAL_AUTH_QQ_KEY = os.environ.get('SOCIAL_AUTH_QQ_KEY')
+SOCIAL_AUTH_QQ_SECRET = os.environ.get('SOCIAL_AUTH_QQ_SECRET')
+
+SOCIAL_AUTH_GITHUB_KEY = os.environ.get('SOCIAL_AUTH_GITHUB_KEY')
+SOCIAL_AUTH_GITHUB_SECRET = os.environ.get('SOCIAL_AUTH_GITHUB_SECRET')
+
+SOCIAL_AUTH_CODING_KEY = os.environ.get('SOCIAL_AUTH_CODING_KEY')
+SOCIAL_AUTH_CODING_SECRET = os.environ.get('SOCIAL_AUTH_CODING_SECRET')
+
