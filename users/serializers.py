@@ -4,6 +4,8 @@ from users.models import User
 
 
 class UserRegistrationSerializer(serializers.ModelSerializer):
+    username = serializers.CharField(max_length=255, required=True)
+
     class Meta:
         model = User
         fields = ('email', 'username')
@@ -27,3 +29,4 @@ class UserSampleSerializer(serializers.ModelSerializer):
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
+        fields = ('username', 'email', 'avatar', 'id')

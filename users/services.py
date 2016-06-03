@@ -45,6 +45,18 @@ class UserService(object):
         return Response(data={'message': '403003 邮件发送失败'}, status=status.HTTP_403_FORBIDDEN)
 
     @classmethod
+    def init(cls, email, password):
+        try:
+            user = User.objects.get(email=email)
+        except User.DoesNotExist:
+            return Response(data={'message': '404001 用户不存在'}, status=status.HTTP_404_NOT_FOUND)
+        if user.password:
+            return Response(data={'message': '400001 用户已初始化'}, status=status.HTTP_400_BAD_REQUEST)
+        user.set_password(password)
+        user.save()
+        return Response(data={'message': '初始化成功'}, status=status.HTTP_200_OK)
+
+    @classmethod
     def logout(cls):
         pass
 

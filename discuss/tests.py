@@ -1,23 +1,21 @@
-from django.test import TestCase
-
-from discuss.models import Discuss
-from sendcloud.constants import SendCloudTemplates
-from sendcloud.utils import sendcloud_template
-from users.models import User
+from discuss.apis import DiscussViewSet
+from utils.tests import DjangoTestCase
 
 
-class DiscussTestCase(TestCase):
+class DiscussTestCase(DjangoTestCase):
     def setUp(self):
-        self.email = '670425438@qq.com'
-        self.username = 'joway'
+        super().setUp()
+        self.base_url = '/discuss/'
 
-    def test_discuss(self):
-        sendcloud_template(to=[self.email],
-                           tpt_ivk_name=SendCloudTemplates.Test,
-                           sub_vars={'name': [self.username]})
-        user = User.objects.create_guest(username=self.username,
-                                         email=self.email)
-        discuss = Discuss.objects.create_discuss(user=user, content='Test content',
-                                                 post_url='http:baidu.com/123.json')
-        print(user)
-        print(discuss)
+    def test_a_register(self):
+        viewset = DiscussViewSet.as_view(actions={'post': 'create'})
+        data = {
+            'username': self.username,
+            'email': self.email,
+            'post_url': self.post_url,
+            'content': 'xxxxxxxxxxxx'
+        }
+        request = self.factory.post(self.base_url + 'discuss/', data=data)
+        response = viewset(request)
+        print(response.data)
+        self.assertEqual(response.status_code, 201)

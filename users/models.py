@@ -1,5 +1,6 @@
 from django.contrib.auth.models import PermissionsMixin, AbstractBaseUser, BaseUserManager
 from django.db import models
+
 from .constants import PROVIDERS_CHOICES, ROLES_CHOICES, Roles, ALINK_VERIFY_CODE_LENGTH
 
 
@@ -30,7 +31,7 @@ class UserManager(BaseUserManager):
 # 创建了自定义的User,也必须要创建自定义的UserManager
 class User(AbstractBaseUser, PermissionsMixin):
     email = models.EmailField('注册邮箱', unique=True, db_index=True)
-    username = models.CharField('昵称', max_length=255, db_index=True, null=True, blank=True)
+    username = models.CharField('昵称', max_length=255, db_index=True, default='')
 
     score = models.IntegerField('积分', default=0)
     coin = models.IntegerField('硬币', default=0)

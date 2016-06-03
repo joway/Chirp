@@ -1,15 +1,14 @@
 from django.db.transaction import non_atomic_requests
 from django.utils.datastructures import MultiValueDictKeyError
+from rest_framework import status
 from rest_framework import viewsets
 from rest_framework.decorators import list_route
 from rest_framework.permissions import AllowAny
 from rest_framework.response import Response
-from rest_framework import status
-
 
 from users.services import UserService
 from .models import User
-from .serializers import UserRegistrationSerializer, UserSerializer, UserLoginSerializer, UserActivateSerializer
+from .serializers import UserRegistrationSerializer, UserSerializer, UserLoginSerializer
 
 
 class UserViewSet(viewsets.GenericViewSet):
@@ -26,6 +25,16 @@ class UserViewSet(viewsets.GenericViewSet):
         serializer = UserRegistrationSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
         return UserService.register(email=serializer.data['email'], username=serializer.data['username'])
+
+    @list_route(methods=['post'])
+    @non_atomic_requests
+    def init(self, request):
+        """
+        初始化密码
+        """
+        serializer = UserLoginSerializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        return UserService.init(serializer.data['email'], serializer.data['password'])
 
     @list_route(methods=['post'])
     @non_atomic_requests

@@ -3,7 +3,6 @@ from rest_framework import (
     viewsets,
     status
 )
-from rest_framework.decorators import list_route
 from rest_framework.permissions import AllowAny
 from rest_framework.response import Response
 
@@ -21,19 +20,13 @@ class DiscussViewSet(viewsets.GenericViewSet):
     queryset = Discuss.objects.all()
     pagination_class = DiscussPagination
 
-    @list_route(methods=['get'])
-    def ttt(self, request, *args, **kwargs):
-        sendcloud_template(to=['670425438@qq.com'],
-                           tpt_ivk_name='test_template_active',
-                           sub_vars='{"%name%": ["Ben"]}')
-        return Response('123', status=status.HTTP_201_CREATED)
-
     @non_atomic_requests
     def create(self, request, *args, **kwargs):
         # Guest 用户
         if request.user.is_anonymous():
             serializer = GuestDiscussCreateSerializer(data=request.data)
             serializer.is_valid(raise_exception=True)
+            # reply_to_id =
             if not User.objects.filter(email=serializer.data['email']).exists():
                 if sendcloud_template(to=[serializer.data['email']],
                                       tpt_ivk_name=SendCloudTemplates.Test,

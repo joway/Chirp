@@ -1,3 +1,3 @@
 class SendCloudTemplates:
-    REGISTER = 'template_register'
+    REGISTER = 'register'
     Test = 'test_template'

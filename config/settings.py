@@ -24,16 +24,13 @@ DEBUG = False
 
 ALLOWED_HOSTS = ['*']
 
-
 try:
     from .local_settings import *
 except ImportError:
     pass
 
-
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = os.environ['SECRET_KEY']
-
 
 # Application definition
 
@@ -93,14 +90,25 @@ WSGI_APPLICATION = 'config.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/1.8/ref/settings/#databases
-
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
-        'ATOMIC_REQUESTS': True
+if DEBUG:
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.sqlite3',
+            'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+            'ATOMIC_REQUESTS': True
+        }
     }
-}
+else:
+    DATABASES = {
+        'default': {
+            'NAME': os.environ.get('MYSQL_INSTANCE_NAME', 'xxx'),
+            'ENGINE': 'django.db.backends.mysql',
+            'USER': os.environ.get("MYSQL_USERNAME", 'xxx'),
+            'PASSWORD': os.environ.get("MYSQL_PASSWORD", 'xxx'),
+            'HOST': os.environ.get("MYSQL_HOST", 'xxx'),
+            'PORT': os.environ.get("MYSQL_PORT", 3306),
+        },
+    }
 
 # Internationalization
 # https://docs.djangoproject.com/en/1.8/topics/i18n/
@@ -159,7 +167,6 @@ POSTS_UUID_LENGTH = 12
 
 AUTH_USER_MODEL = 'users.User'
 
-
 AUTHENTICATION_BACKENDS = (
     'social.backends.qq.QQOAuth2',
     'social.backends.github.GithubOAuth2',
@@ -175,7 +182,6 @@ DEFAULT_FROM_EMAIL = 'admin@joway.wang'
 MAIL_DEBUG = False
 MAIL_APP_USER = os.environ.get('MAIL_APP_USER')
 MAIL_APP_KEY = os.environ.get('MAIL_APP_KEY')
-
 
 # oauth
 SOCIAL_AUTH_ADMIN_USER_SEARCH_FIELDS = ['username', 'email']
@@ -197,9 +203,9 @@ SOCIAL_AUTH_GITHUB_SCOPE = [
     'user'
 ]
 
-LOGIN_URL = '/login/'
+# re url
+LOGIN_URL = '/'
 LOGIN_REDIRECT_URL = '/done/'
-
 
 # oauth
 SOCIAL_AUTH_QQ_KEY = os.environ.get('SOCIAL_AUTH_QQ_KEY')
@@ -210,4 +216,3 @@ SOCIAL_AUTH_GITHUB_SECRET = os.environ.get('SOCIAL_AUTH_GITHUB_SECRET')
 
 SOCIAL_AUTH_CODING_KEY = os.environ.get('SOCIAL_AUTH_CODING_KEY')
 SOCIAL_AUTH_CODING_SECRET = os.environ.get('SOCIAL_AUTH_CODING_SECRET')
-
