@@ -46,6 +46,7 @@ INSTALLED_APPS = (
     'discuss',
     'users',
     'posts',
+    'upload',
 
     # third part apps
     'rest_framework',
@@ -225,3 +226,6 @@ SOCIAL_AUTH_CODING_KEY = os.environ.get('SOCIAL_AUTH_CODING_KEY')
 SOCIAL_AUTH_CODING_SECRET = os.environ.get('SOCIAL_AUTH_CODING_SECRET')
 
 DEFAULT_AVATAR = 'https://dn-joway.qbox.me/1465087838481_user_116px_1196112_easyicon.net.png'
+
+QINIU_ACCESS_KEY = os.environ.get('QINIU_ACCESS_KEY', 'xxx')
+QINIU_SECRET_KEY = os.environ.get('QINIU_SECRET_KEY', 'xxx')

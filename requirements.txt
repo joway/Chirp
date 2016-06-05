@@ -13,3 +13,4 @@ requests==2.10.0
 requests-oauthlib==0.6.1
 shortuuid==0.4.3
 six==1.10.0
+qiniu==7.0.7
