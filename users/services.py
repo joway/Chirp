@@ -46,6 +46,27 @@ class UserService(object):
         return Response(data={'message': '403003 邮件发送失败'}, status=status.HTTP_403_FORBIDDEN)
 
     @classmethod
+    def registerpwd(cls, email, password):
+        user, is_create = User.objects.get_or_create(email=email)
+        if not is_create:
+            return Response(data={'message': '400001 email已存在'}, status=status.HTTP_400_BAD_REQUEST)
+
+        if user.last_alink_verify_time and (
+                    timezone.now() - user.last_alink_verify_time).seconds < MAX_MAIL_INTERVAL_SECONDS:
+            return Response(data={'message': '403002 验证码请求过于频繁'}, status=status.HTTP_403_FORBIDDEN)
+
+        user.username = email
+        user.set_password(password)
+        user.alink_verify_code = get_random_string(ALINK_VERIFY_CODE_LENGTH)
+        if sendcloud_template(to=[email],
+                              tpt_ivk_name=SendCloudTemplates.REGISTER,
+                              sub_vars={'%username%': [email],
+                                        '%url%': [DOMAIN_URL + '/user/activate?confirm=' + user.alink_verify_code]}):
+            user.save()
+            return Response(data={'message': '注册成功, 已发送验证邮件'}, status=status.HTTP_200_OK)
+        return Response(data={'message': '403003 邮件发送失败'}, status=status.HTTP_403_FORBIDDEN)
+
+    @classmethod
     def init(cls, email, password):
         try:
             user = User.objects.get(email=email)
@@ -81,3 +102,4 @@ class UserService(object):
         oauth.user = user
         oauth.save()
         return oauth
+

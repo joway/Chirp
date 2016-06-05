@@ -11,6 +11,13 @@ class UserRegistrationSerializer(serializers.ModelSerializer):
         fields = ('email', 'username')
 
 
+class UserRegistrationWithPWDSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = User
+        fields = ('email', 'password')
+
+
 class UserLoginSerializer(serializers.Serializer):
     email = serializers.EmailField()
     password = serializers.CharField(max_length=128)

@@ -8,7 +8,8 @@ from rest_framework.response import Response
 
 from users.services import UserService
 from .models import User
-from .serializers import UserRegistrationSerializer, UserSerializer, UserLoginSerializer
+from .serializers import UserRegistrationSerializer, UserSerializer, UserLoginSerializer, \
+    UserRegistrationWithPWDSerializer
 
 
 class UserViewSet(viewsets.GenericViewSet):
@@ -25,6 +26,16 @@ class UserViewSet(viewsets.GenericViewSet):
         serializer = UserRegistrationSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
         return UserService.register(email=serializer.data['email'], username=serializer.data['username'])
+
+    @list_route(methods=['post'])
+    @non_atomic_requests
+    def registerpwd(self, request):
+        """
+        注册
+        """
+        serializer = UserRegistrationWithPWDSerializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        return UserService.registerpwd(email=serializer.data['email'], password=serializer.data['password'])
 
     @list_route(methods=['post'])
     @non_atomic_requests
@@ -55,3 +66,7 @@ class UserViewSet(viewsets.GenericViewSet):
     @list_route(methods=['get'], permission_classes=[IsAuthenticated, ])
     def detail(self, request):
         return Response(UserSerializer(request.user).data, status=status.HTTP_200_OK)
+
+    @list_route(methods=['get'], permission_classes=[AllowAny, ])
+    def test(self, request):
+        return Response(data={'msg': '123'}, status=status.HTTP_200_OK)
