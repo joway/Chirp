@@ -1,7 +1,7 @@
 var storage = $.localStorage
 
 var chirp = new Chirp();
-var base_url = 'http://chirp.i2p.pub/'
+var base_url = 'https://api.i2p.pub/'
 var user_login_url = 'user/login/'
 var user_register_url = 'user/registerpwd/'
 var user_detail_url = 'user/detail/'
