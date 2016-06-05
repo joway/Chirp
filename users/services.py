@@ -55,7 +55,7 @@ class UserService(object):
                     timezone.now() - user.last_alink_verify_time).seconds < MAX_MAIL_INTERVAL_SECONDS:
             return Response(data={'message': '403002 验证码请求过于频繁'}, status=status.HTTP_403_FORBIDDEN)
 
-        user.username = email
+        user.username = email[:email.find('@')]
         user.set_password(password)
         user.alink_verify_code = get_random_string(ALINK_VERIFY_CODE_LENGTH)
         if sendcloud_template(to=[email],
@@ -102,4 +102,3 @@ class UserService(object):
         oauth.user = user
         oauth.save()
         return oauth
-
