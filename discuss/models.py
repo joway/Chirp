@@ -47,3 +47,6 @@ class Discuss(models.Model):
                                  related_name='reply_to_user')
 
     objects = DiscussManager()
+
+    class Meta:
+        ordering = ('-create_at',)

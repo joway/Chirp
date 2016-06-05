@@ -69,7 +69,7 @@ class DiscussViewSet(viewsets.GenericViewSet):
 
     def list(self, request, *args, **kwargs):
         post_url = request.GET.get('post_url')
-        queryset = self.get_queryset().filter(post__url=post_url)
+        queryset = self.get_queryset().filter(post__url=post_url).order_by('create_at')
         page = self.paginate_queryset(queryset)
         serializer = self.get_serializer(page, many=True)
         return self.get_paginated_response(serializer.data)
