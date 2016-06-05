@@ -181,7 +181,7 @@ AUTHENTICATION_BACKENDS = (
     'django.contrib.auth.backends.ModelBackend',
 )
 
-DOMAIN_URL = 'http://joway.tunnel.phpor.me'
+DOMAIN_URL = 'http://chirp.i2p.pub'
 
 # mail : sendcloud
 EMAIL_BACKEND = 'sendcloud.SendCloudBackend'
