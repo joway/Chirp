@@ -1,11 +1,12 @@
 var storage = $.localStorage
 
 var chirp = new Chirp();
-var base_url = 'http://chirp.i2p.pub:8000/'
+var base_url = 'http://chirp.i2p.pub/'
 var user_login_url = 'user/login/'
 var user_register_url = 'user/registerpwd/'
 var user_detail_url = 'user/detail/'
 var discuss_url = 'discuss/'
+
 
 function Chirp() {
     var self = this;
@@ -105,13 +106,13 @@ function register() {
             if (data === false) {
                 return console.log('Cancelled');
             }
-            if (data.password != data.passwordAgain){
+            if (data.password != data.passwordAgain) {
                 alert('两次密码不符合');
             }
             console.log(data)
             chirp.ajax(base_url + user_register_url, 'POST', data, false).done(function (resp) {
                 console.log(resp);
-                alert('注册成功');
+                alert('注册成功, 请查收邮件以激活帐号');
                 window.location.reload();
             });
         }
@@ -139,10 +140,18 @@ function initDiscuss() {
 }
 
 function sendDiscuss(content) {
+    if (chirp.status == false) {
+        alert('请先登陆');
+        return false;
+    }
+    if ($('#chirp-discuss-content').val() == ''){
+        alert('请输入内容');
+        return false;
+    }
     var data = {
         content: $('#chirp-discuss-content').val(),
         post_url: window.location.protocol + '//' + window.location.hostname + window.location.pathname,
-        reply_to: 4,
+        reply_to: 1,
         parent_id: 1
     }
     console.log(data);
@@ -163,7 +172,7 @@ function init() {
         });
         document.getElementById('submit-area').innerHTML = userHtml;
     }
-    else{
+    else {
         chirp.ajax(base_url + user_detail_url, 'get', []).done(function (resp) {
             chirp.initUser(resp);
             chirp.status = true;
