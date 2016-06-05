@@ -27,9 +27,9 @@ class DiscussAuthCreateSerializer(CreateDiscussSerializer):
 class GuestDiscussCreateSerializer(CreateDiscussSerializer):
     email = serializers.EmailField()
     username = serializers.CharField(max_length=32)
-    reply_to = serializers.IntegerField()
+    reply_to = serializers.RelatedField(source='reply_to', read_only=True)
 
     class Meta:
         model = Discuss
         fields = ('content', 'email', 'username', 'post_url',
-                  'reply_to_id', 'parent_id')
+                  'reply_to', 'parent_id')

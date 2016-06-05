@@ -1,6 +1,7 @@
 from django.contrib.auth.models import PermissionsMixin, AbstractBaseUser, BaseUserManager
 from django.db import models
 
+from config.settings import DEFAULT_AVATAR
 from .constants import PROVIDERS_CHOICES, ROLES_CHOICES, Roles, ALINK_VERIFY_CODE_LENGTH
 
 
@@ -38,7 +39,7 @@ class User(AbstractBaseUser, PermissionsMixin):
 
     is_staff = models.BooleanField('管理员', default=False)
 
-    avatar = models.URLField('头像', max_length=255, blank=True, null=True)
+    avatar = models.URLField('头像', max_length=255, default=DEFAULT_AVATAR)
 
     create_at = models.DateTimeField('创建时间', auto_now_add=True)
 

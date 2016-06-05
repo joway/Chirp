@@ -52,6 +52,7 @@ INSTALLED_APPS = (
     'jet.dashboard',
     'jet',
     'social.apps.django_app.default',
+    'corsheaders',
 )
 
 MIDDLEWARE_CLASSES = (
@@ -64,7 +65,13 @@ MIDDLEWARE_CLASSES = (
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'django.middleware.security.SecurityMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
+    'django.middleware.common.CommonMiddleware',
 )
+CORS_ORIGIN_ALLOW_ALL = True
+# CORS_ORIGIN_WHITELIST = (
+#     'hostname.example.com'
+# )
 
 ROOT_URLCONF = 'config.urls'
 
@@ -216,3 +223,5 @@ SOCIAL_AUTH_GITHUB_SECRET = os.environ.get('SOCIAL_AUTH_GITHUB_SECRET')
 
 SOCIAL_AUTH_CODING_KEY = os.environ.get('SOCIAL_AUTH_CODING_KEY')
 SOCIAL_AUTH_CODING_SECRET = os.environ.get('SOCIAL_AUTH_CODING_SECRET')
+
+DEFAULT_AVATAR = 'https://dn-joway.qbox.me/1465087838481_user_116px_1196112_easyicon.net.png'

@@ -13,7 +13,8 @@ class DiscussTestCase(DjangoTestCase):
             'username': self.username,
             'email': self.email,
             'post_url': self.post_url,
-            'content': 'xxxxxxxxxxxx'
+            'content': 'xxxxxxxxxxxx',
+            'reply_to_id': '1'
         }
         request = self.factory.post(self.base_url + 'discuss/', data=data)
         response = viewset(request)

@@ -7,6 +7,7 @@ from sendcloud.constants import SendCloudTemplates
 from sendcloud.utils import sendcloud_template
 from users.constants import MAX_MAIL_INTERVAL_SECONDS, ALINK_VERIFY_CODE_LENGTH, Roles
 from users.models import User
+from users.serializers import UserSerializer
 from utils.jwt import get_jwt_token
 from utils.utils import get_random_string
 
@@ -20,7 +21,7 @@ class UserService(object):
             return Response(data={'message': '404001 用户未注册'}, status=status.HTTP_404_NOT_FOUND)
         if user.check_password(password):
             token = get_jwt_token(user)
-            return Response({'jwt': token}, status=status.HTTP_200_OK)
+            return Response({'jwt': token, 'user': UserSerializer(user).data}, status=status.HTTP_200_OK)
         else:
             return Response(data={'message': '401001 密码错误'}, status=status.HTTP_401_UNAUTHORIZED)
 

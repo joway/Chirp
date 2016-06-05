@@ -3,7 +3,7 @@ from django.utils.datastructures import MultiValueDictKeyError
 from rest_framework import status
 from rest_framework import viewsets
 from rest_framework.decorators import list_route
-from rest_framework.permissions import AllowAny
+from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.response import Response
 
 from users.services import UserService
@@ -51,3 +51,7 @@ class UserViewSet(viewsets.GenericViewSet):
         except MultiValueDictKeyError:
             return Response(data={'message': '400001 格式非法'}, status=status.HTTP_400_BAD_REQUEST)
         return UserService.confirm(confirm)
+
+    @list_route(methods=['get'], permission_classes=[IsAuthenticated, ])
+    def detail(self, request):
+        return Response(UserSerializer(request.user).data, status=status.HTTP_200_OK)

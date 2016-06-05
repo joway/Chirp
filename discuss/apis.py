@@ -26,7 +26,7 @@ class DiscussViewSet(viewsets.GenericViewSet):
         if request.user.is_anonymous():
             serializer = GuestDiscussCreateSerializer(data=request.data)
             serializer.is_valid(raise_exception=True)
-            # reply_to_id =
+            print(serializer.validated_data)
             if not User.objects.filter(email=serializer.data['email']).exists():
                 if sendcloud_template(to=[serializer.data['email']],
                                       tpt_ivk_name=SendCloudTemplates.Test,
@@ -68,7 +68,8 @@ class DiscussViewSet(viewsets.GenericViewSet):
         return Response(serializer.data, status=status.HTTP_200_OK)
 
     def list(self, request, *args, **kwargs):
-        queryset = self.get_queryset()
+        post_url = request.GET.get('post_url')
+        queryset = self.get_queryset().filter(post__url=post_url)
         page = self.paginate_queryset(queryset)
         serializer = self.get_serializer(page, many=True)
         return self.get_paginated_response(serializer.data)
