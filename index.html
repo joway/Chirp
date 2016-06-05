@@ -8,105 +8,74 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no"/>
     <meta name="description" content="PlaneUI"/>
     <meta name="keywords" content="PlaneUI"/>
-    <title>评论列表 - PlaneUI 组件示例</title>
+    <title>评论列表</title>
 
     <link rel="stylesheet" type="text/css" href="dist/css/planeui.css"/>
     <link rel="stylesheet" type="text/css" href="css/style.css"/>
+    <script src="dist/js/template.js"></script>
+
 
 </head>
 <body>
 <div class="pui-layout" style="width:96%;">
-    <br/>
-    <h4 class="h4">评论列表</h4>
-    <div class="pui-comment pui-comment-avatar-left">
-        <div class="pui-comment-avatar">
-            <img src="logo/avatar.jpg" class="pui-img-circle pui-img-xs"/>
-            <p>网友</p>
-        </div>
-        <div class="pui-comment-container">
-            <div class="pui-comment-main pui-comment-arrow-lt">
-                <header class="pui-comment-header">
-                    <div class="pui-comment-title-right">
-                        #1楼 <a href="javascript:;">赞(18)</a> <a href="javascript:;">反对(0)</a>
-                    </div>
-                    <div class="pui-comment-subtitle">评论于 2014-7-12 15:30</div>
-                </header>
-                <section class="pui-comment-content">
-                    评论内容XXXXXXXXXXXXXXXXXXXXXXXXXX
-                </section>
-                <div class="pui-comment-foot"><a href="javascript:;">回复</a><a href="">顶</a><a href="javascript:;">举报</a>
-                </div>
+    <div id="content"></div>
+    <script id="chirp-discuss-template" type="text/html">
+        {{each discussList as discuss index}}
+        <div class="pui-comment pui-comment-avatar-left">
+            <div class="pui-comment-avatar">
+                <img src="{{ discuss.user.avatar }}" class="pui-img-circle pui-img-xs"/>
+                <p>{{ discuss.user.username }}</p>
             </div>
-            <div class="pui-comment-reply">
-                <div class="pui-comment pui-comment-avatar-left">
-                    <div class="pui-comment-arrow"><span></span></div>
-                    <div class="pui-comment-avatar">
-                        <img src="logo/avatar.jpg" class="pui-img-circle pui-img-xs"/>
-                        <p>网友</p>
-                    </div>
-                    <div class="pui-comment-container">
-                        <header class="pui-comment-header">
-                            <div class="pui-comment-title-right">
-                                #2楼 <a href="javascript:;">赞(1)</a> <a href="javascript:;">反对(18)</a>
-                            </div>
-                            <div class="pui-comment-subtitle"><a href="javascript:;" class="pui-link">@某某某</a> <span
-                                    class="pui-comment-reply-time">回复于2014-7-12 15:30</span></div>
-                        </header>
-                        <section class="pui-comment-content">
-                            介就是回复的内容文本....
-                        </section>
-                        <footer class="pui-comment-foot pui-text-right">
-                            <a href="javascript:;">回复</a><a href="">顶</a><a href="javascript:;">举报</a>
-                        </footer>
-                    </div>
-                </div>
-                <div class="pui-comment pui-comment-avatar-left">
-                    <div class="pui-comment-arrow"><span></span></div>
-                    <div class="pui-comment-avatar">
-                        <img src="logo/avatar.jpg" class="pui-img-circle pui-img-xs"/>
-                        <p>网友</p>
-                    </div>
-                    <div class="pui-comment-container">
-                        <header class="pui-comment-header">
-                            <div class="pui-comment-title-right">
-                                #2楼 <a href="javascript:;">赞(1)</a> <a href="javascript:;">反对(18)</a>
-                            </div>
-                            <div class="pui-comment-subtitle"><a href="javascript:;" class="pui-link">@某某某</a> <span
-                                    class="pui-comment-reply-time">回复于2014-7-12 15:30</span></div>
-                        </header>
-                        <section class="pui-comment-content">
-                            你也太无聊了吧！
-                        </section>
-                        <footer class="pui-comment-foot">
-                            <a href="javascript:;">回复</a><a href="">顶</a><a href="javascript:;">举报</a>
-                        </footer>
+            <div class="pui-comment-container">
+                <div class="pui-comment-main pui-comment-arrow-lt">
+                    <header class="pui-comment-header">
+                        <div class="pui-comment-title-right">
+                            {{ index+1 }}楼
+                            <!--<a href="javascript:;">赞(18)</a> <a href="javascript:;">反对(0)</a>-->
+                        </div>
+                        <div class="pui-comment-subtitle">评论于 {{ discuss.create_at }}</div>
+                    </header>
+                    <section class="pui-comment-content">
+                        {{ discuss.content }}
+                    </section>
+                    <div class="pui-comment-foot">
+                        <a href="javascript:;">回复</a>
+                        <!--<a href="">顶</a>-->
+                        <!--<a href="javascript:;">举报</a>-->
                     </div>
                 </div>
             </div>
         </div>
-    </div>
+        {{/each}}
+    </script>
+
 
     <div class="pui-form-group">
         <label>主要内容：</label>
-        <label class="chirp-username"><a href="#">Joway</a></label>
-        <textarea class="pui-input-border-error chirp-comment-textarea"></textarea>
+        <label class="chirp-username"></label>
+        <textarea class="pui-input-border-error chirp-comment-textarea" id="chirp-discuss-content"></textarea>
     </div>
     <div class="pui-form-group">
-        <a href="#" class="chirp-social-oauth">
-            <img src="logo/sina.png" alt="Sina" width="30">
-        </a>
-        <a href="#" class="chirp-social-oauth">
-            <img src="logo/qq.png" alt="QQ" width="30">
-        </a>
-        <a href="#" class="chirp-social-oauth">
-            <img src="logo/github.png" alt="Github" width="26">
-        </a>
-        <a href="#" class="chirp-social-oauth">
-            <img src="logo/google.png" alt="Github" width="26">
-        </a>
+        <div id="chirp-social-oauth" hidden>
+            <a href="#" class="chirp-social-oauth">
+                <img src="logo/sina.png" alt="Sina" width="30">
+            </a>
+            <a href="#" class="chirp-social-oauth">
+                <img src="logo/qq.png" alt="QQ" width="30">
+            </a>
+            <a href="#" class="chirp-social-oauth">
+                <img src="logo/github.png" alt="Github" width="26">
+            </a>
+            <a href="#" class="chirp-social-oauth">
+                <img src="logo/google.png" alt="Github" width="26">
+            </a>
+            <a href="#" class="chirp-social-oauth">
+                <img src="logo/I2P.png" alt="i2p" width="26" onclick="login()">
+            </a>
+        </div>
 
         <input type="submit" value="submit" class="pui-btn pui-btn-primary"
-               style="float: right"/>
+               style="float: right" onclick="sendDiscuss()"/>
     </div>
 </div>
 
@@ -124,5 +93,15 @@
 <script type="text/javascript" src="dist/js/planeui.patch.ie9.js"></script>
 <![endif]-->
 <script type="text/javascript" src="dist/js/planeui.js"></script>
+
+<script src="dist/js/vex.combined.min.js"></script>
+<script>vex.defaultOptions.className = 'vex-theme-wireframe';</script>
+<link rel="stylesheet" href="dist/css/vex.css"/>
+<link rel="stylesheet" href="dist/css/vex-theme-wireframe.css"/>
+
+
+<script src="dist/js/jquery.storageapi.min.js"></script>
+<script src="js/main.js"></script>
+
 </body>
 </html>
