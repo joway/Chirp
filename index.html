@@ -17,8 +17,41 @@
 
 </head>
 <body>
+<div class="pui-layout" style="width:96%;margin:0 auto;">
+    <br/>
+    <article>
+        <header>
+            <h4 class="pui-h4">文章标题</h4>
+            <div class="pui-article-subtitle">
+                发表于2014年6月3日 09:18
+            </div>
+        </header>
+        <hr class="pui-hr-dashed"/>
+        <div class="pui-article-content">
+            <p>
+                “普若格码.扣德的衬衣”，工程能力+20，智商+10，情商-30，异性吸引力-100。在历史上，扣德家族是“布格.泰斯特家族”的死敌。但是很多扣德家族的青年违背了他们的家族誓言，娶了泰斯特家族的女人为妻。</p>
+            <p>急招Swift资深工程师，要求5年以上Swift语言开发经验，尊敬领导，服从指示，有狼性，待遇从优。</p>
+            <p>【世界上最珍贵的东西都是免费的】①阳光免费,但不能生产 ②空气免费,污染后难还原 ③爱情免费,却非每人所得 ④亲情免费,难敌生死 ⑤友情免费,需掏心掏肺 ⑥梦想免费,容易夭折
+                ⑦信念免费,却难坚持…那么多美好的东西都是免费的,花钱是买不到的。珍惜拥有，早安，周一！</p>
+        </div>
+        <section>
+            <h6>section文章正文小节一</h6>
+            <p>
+                “普若格码.扣德的衬衣”，工程能力+20，智商+10，情商-30，异性吸引力-100。在历史上，扣德家族是“布格.泰斯特家族”的死敌。但是很多扣德家族的青年违背了他们的家族誓言，娶了泰斯特家族的女人为妻。</p>
+            <p>急招Swift资深工程师，要求5年以上Swift语言开发经验，尊敬领导，服从指示，有狼性，待遇从优。</p>
+        </section>
+        <section>
+            <h6>section文章正文小节二</h6>
+            <p>
+                “普若格码.扣德的衬衣”，工程能力+20，智商+10，情商-30，异性吸引力-100。在历史上，扣德家族是“布格.泰斯特家族”的死敌。但是很多扣德家族的青年违背了他们的家族誓言，娶了泰斯特家族的女人为妻。</p>
+            <p>急招Swift资深工程师，要求5年以上Swift语言开发经验，尊敬领导，服从指示，有狼性，待遇从优。</p>
+        </section>
+        <hr/>
+    </article>
+</div>
 <div class="pui-layout" style="width:96%;">
     <div id="content"></div>
+
     <script id="chirp-discuss-template" type="text/html">
         {{each discussList as discuss index}}
         <div class="pui-comment pui-comment-avatar-left">
@@ -33,7 +66,7 @@
                             {{ index+1 }}楼
                             <!--<a href="javascript:;">赞(18)</a> <a href="javascript:;">反对(0)</a>-->
                         </div>
-                        <div class="pui-comment-subtitle">评论于 {{ discuss.create_at }}</div>
+                        <div class="pui-comment-subtitle">评论于 {{ discuss.create_at | dateFormat:'yyyy-MM-dd hh:mm:ss' }}</div>
                     </header>
                     <section class="pui-comment-content">
                         {{ discuss.content }}
@@ -49,34 +82,44 @@
         {{/each}}
     </script>
 
+    <div id="submit-area"></div>
 
-    <div class="pui-form-group">
-        <label>主要内容：</label>
-        <label class="chirp-username"></label>
-        <textarea class="pui-input-border-error chirp-comment-textarea" id="chirp-discuss-content"></textarea>
-    </div>
-    <div class="pui-form-group">
-        <div id="chirp-social-oauth" hidden>
-            <a href="#" class="chirp-social-oauth">
-                <img src="logo/sina.png" alt="Sina" width="30">
-            </a>
-            <a href="#" class="chirp-social-oauth">
-                <img src="logo/qq.png" alt="QQ" width="30">
-            </a>
-            <a href="#" class="chirp-social-oauth">
-                <img src="logo/github.png" alt="Github" width="26">
-            </a>
-            <a href="#" class="chirp-social-oauth">
-                <img src="logo/google.png" alt="Github" width="26">
-            </a>
-            <a href="#" class="chirp-social-oauth">
-                <img src="logo/I2P.png" alt="i2p" width="26" onclick="login()">
-            </a>
+    <script id="chirp-submit-area-template" type="text/html">
+        <div class="pui-form-group">
+            <label>主要内容：</label>
+            <span style="float: right">
+                <a onclick="{{ func }}" href="#">{{ label }}</a>
+            </span>
+            <label class="chirp-username">{{ username }}</label>
+            <img src="{{ avatar }}" alt="" width="15px" style="float: right; margin: 3px">
+            <textarea class="pui-input-border-error chirp-comment-textarea" id="chirp-discuss-content"></textarea>
         </div>
+        <div class="pui-form-group">
 
-        <input type="submit" value="submit" class="pui-btn pui-btn-primary"
-               style="float: right" onclick="sendDiscuss()"/>
-    </div>
+            <div id="chirp-social-oauth" hidden>
+                <!--<a href="#" class="chirp-social-oauth">-->
+                <!--<img src="logo/sina.png" alt="Sina" width="30">-->
+                <!--</a>-->
+                <!--<a href="#" class="chirp-social-oauth">-->
+                <!--<img src="logo/qq.png" alt="QQ" width="30">-->
+                <!--</a>-->
+                <a href="#" class="chirp-social-oauth">
+                    <img src="logo/github.png" alt="Github" width="26" onclick="githubOauth()">
+                </a>
+                <!--<a href="#" class="chirp-social-oauth">-->
+                <!--<img src="logo/google.png" alt="Github" width="26">-->
+                <!--</a>-->
+                <a href="#" class="chirp-social-oauth">
+                    <img src="logo/I2P.png" alt="i2p" width="26" onclick="login()">
+                </a>
+            </div>
+
+            <input type="submit" value="submit" class="pui-btn pui-btn-primary"
+                   style="float: right" onclick="sendDiscuss()"/>
+        </div>
+    </script>
+
+
 </div>
 
 
@@ -102,6 +145,11 @@
 
 <script src="dist/js/jquery.storageapi.min.js"></script>
 <script src="js/main.js"></script>
+<script src="dist/js/oauth.js"></script>
 
+<script>
+
+
+</script>
 </body>
 </html>
