@@ -107,7 +107,7 @@ function register() {
                 return console.log('Cancelled');
             }
             if (data.password != data.passwordAgain) {
-                alert('两次密码不符合');
+                return alert('两次密码不符合');
             }
             console.log(data)
             chirp.ajax(base_url + user_register_url, 'POST', data, false).done(function (resp) {
