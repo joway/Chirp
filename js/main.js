@@ -202,12 +202,12 @@ function init() {
 
 init();
 
-function githubOauth() {
-    OAuth.initialize('cWoMH-Ym9_3szpTRj2-DcoCZDPo')
-    OAuth.popup('github').done(function (result) {
-        console.log(result)
-    });
-}
+// function githubOauth() {
+//     OAuth.initialize('cWoMH-Ym9_3szpTRj2-DcoCZDPo')
+//     OAuth.popup('github').done(function (result) {
+//         console.log(result)
+//     });
+// }
 
 template.helper('dateFormat', function (date, format) {
 
