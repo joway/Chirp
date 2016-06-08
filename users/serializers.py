@@ -1,6 +1,6 @@
 from rest_framework import serializers
 
-from users.models import User
+from users.models import User, Oauth
 
 
 class UserRegistrationSerializer(serializers.ModelSerializer):
@@ -12,7 +12,6 @@ class UserRegistrationSerializer(serializers.ModelSerializer):
 
 
 class UserRegistrationWithPWDSerializer(serializers.ModelSerializer):
-
     class Meta:
         model = User
         fields = ('email', 'password')
@@ -37,3 +36,13 @@ class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
         fields = ('username', 'email', 'avatar', 'id')
+
+
+class SocialAuthSerializer(serializers.ModelSerializer):
+    """
+    提供backend, access_token欄位
+    """
+    class Meta:
+        model = Oauth
+        fields = ('access_token', 'provider')
+

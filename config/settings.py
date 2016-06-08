@@ -54,6 +54,8 @@ INSTALLED_APPS = (
     'jet',
     'social.apps.django_app.default',
     'corsheaders',
+    'rest_framework.authtoken',  # only if you use token authentication
+    'rest_social_auth',
 )
 
 MIDDLEWARE_CLASSES = (
@@ -197,6 +199,7 @@ SOCIAL_AUTH_ADMIN_USER_SEARCH_FIELDS = ['username', 'email']
 SOCIAL_AUTH_USER_MODEL = 'users.Oauth'
 
 SOCIAL_AUTH_PIPELINE = (
+    # 'users.pipeline.test_pipeline',
     'social.pipeline.social_auth.social_details',
     'social.pipeline.social_auth.social_uid',
     'social.pipeline.social_auth.auth_allowed',
@@ -212,8 +215,8 @@ SOCIAL_AUTH_GITHUB_SCOPE = [
 ]
 
 # re url
-LOGIN_URL = '/'
-LOGIN_REDIRECT_URL = '/done/'
+LOGIN_URL = '/user/oauth/'
+# LOGIN_REDIRECT_URL = 'http://localhost:63342/gh-pages/index.html'
 
 # oauth
 SOCIAL_AUTH_QQ_KEY = os.environ.get('SOCIAL_AUTH_QQ_KEY')
@@ -229,3 +232,6 @@ DEFAULT_AVATAR = 'https://dn-joway.qbox.me/1465087838481_user_116px_1196112_easy
 
 QINIU_ACCESS_KEY = os.environ.get('QINIU_ACCESS_KEY', 'xxx')
 QINIU_SECRET_KEY = os.environ.get('QINIU_SECRET_KEY', 'xxx')
+
+SOCIAL_AUTH_URL_NAMESPACE = 'social'
+FIELDS_STORED_IN_SESSION = ['ident', ]

@@ -17,6 +17,7 @@ from users.models import User
 class DiscussViewSet(viewsets.GenericViewSet):
     serializer_class = DiscussSerializer
     permission_classes = [AllowAny, ]
+    permission_classes = [AllowAny, ]
     queryset = Discuss.objects.all()
     pagination_class = DiscussPagination
 

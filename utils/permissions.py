@@ -1,5 +1,7 @@
 from rest_framework.permissions import BasePermission
 
+from users.models import Oauth
+
 
 def check_permission(permission_class, self, request, obj=None):
     #  !!! permission_class must a tuple !!! such like (a,)
@@ -10,10 +12,6 @@ def check_permission(permission_class, self, request, obj=None):
     self.check_permissions(request)
 
 
-class IsSuperUser(BasePermission):
-    """
-    Allows access only to admin users.
-    """
-
+class IsBound(BasePermission):
     def has_permission(self, request, view):
-        return request.user and ShopUser.objects.filter(user=request.user)
+        return Oauth.objects.filter(access_token=request.POST['access_token'])
