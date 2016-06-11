@@ -21,8 +21,6 @@ RUN pip install -r requirements.txt
 RUN rm /etc/nginx/sites-enabled/default
 RUN ln -s /chirp/.deploy/nginx.conf /etc/nginx/sites-enabled/chirp.conf
 RUN ln -s /chirp/.deploy/supervisord.conf /etc/supervisor/conf.d/
-# RUN service nginx restart
-# RUN uwsgi --ini .deploy/uwsgi.ini
 
 EXPOSE 80
 CMD ["supervisord", "-n"]
