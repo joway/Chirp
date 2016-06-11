@@ -24,5 +24,7 @@ RUN pip install -r requirements.txt
 ADD . /chirp
 
 EXPOSE 80
-CMD ["supervisord", "-n"]
+# CMD ["supervisord", "-n"]
+CMD ["sh", "./.deploy/init.sh"]
+
 
