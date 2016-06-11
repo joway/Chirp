@@ -5,7 +5,6 @@ from django.conf import settings
 from sendcloud import APIBaseClass
 
 
-
 class SendCloudAddressList(APIBaseClass):
     def __init__(self, fail_silently=False, *args, **kwargs):
         mail_list_addr, member_addr = (kwargs.pop('mail_list_addr', None),

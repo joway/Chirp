@@ -1,6 +1,7 @@
 # Created by .ignore support plugin (hsz.mobi)
 ### Python template
 db.sqlite3
+chirp.sock
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
