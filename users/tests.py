@@ -52,20 +52,20 @@
 #         request = self.factory.get(self.base_url + 'activate/', data=data)
 #         response = viewset(request)
 #         print(response.data)
-#         self.assertEqual(response.status_code, 200)
+#         # self.assertEqual(response.status_code, 200)
 #
 #     def test_c_login(self):
-#         viewset = UserViewSet.as_view(actions={'post': 'login'})
-#         user = User.objects.create_guest(username=self.username,
-#                                          email=self.email,
-#                                          alink_verify_code=get_random_string(32))
-#         user.set_password(self.password)
-#         user.save()
-#         data = {
-#             'email': self.email,
-#             'password': self.password
-#         }
-#         request = self.factory.post(self.base_url + 'login/', data=data)
-#         response = viewset(request)
-#         print(response.data)
-#         self.assertEqual(response.status_code, 200)
+#         # viewset = UserViewSet.as_view(actions={'post': 'login'})
+#         # user = User.objects.create_guest(username=self.username,
+#         #                                  email=self.email,
+#         #                                  alink_verify_code=get_random_string(32))
+#         # user.set_password(self.password)
+#         # user.save()
+#         # data = {
+#         #     'email': self.email,
+#         #     'password': self.password
+#         # }
+#         # request = self.factory.post(self.base_url + 'login/', data=data)
+#         # response = viewset(request)
+#         # print(response.data)
+#         # self.assertEqual(response.status_code, 200)
