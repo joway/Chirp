@@ -20,11 +20,11 @@ ADD ./.deploy/nginx.conf /etc/nginx/sites-enabled/chirp.conf
 ADD ./.deploy/supervisord.conf /etc/supervisor/conf.d/
 RUN pip install --upgrade pip
 RUN pip install -r requirements.txt
+RUN echo "daemon off;" >> /etc/nginx/nginx.conf
 
 ADD . /chirp
 
 EXPOSE 80
-# CMD ["supervisord", "-n"]
-CMD ["sh", "./.deploy/init.sh"]
+CMD ["supervisord", "-n"]
 
 
