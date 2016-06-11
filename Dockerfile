@@ -10,12 +10,14 @@ RUN apt-get update && apt-get install -y \
     supervisor
 
 RUN mkdir /chirp
-ADD . /chirp
-
 WORKDIR /chirp
+
+# for cache
+ADD ./requirements.txt /chirp/requirements.txt
 RUN pip install --upgrade pip
 RUN pip install -r requirements.txt
 
+ADD . /chirp
 
 # Configure Nginx and uwsgi
 RUN rm /etc/nginx/sites-enabled/default
