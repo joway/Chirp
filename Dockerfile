@@ -20,7 +20,6 @@ ADD ./.deploy/nginx.conf /etc/nginx/sites-enabled/chirp.conf
 ADD ./.deploy/supervisord.conf /etc/supervisor/conf.d/
 RUN pip install --upgrade pip
 RUN pip install -r requirements.txt
-RUN service nginx start
 
 ADD . /chirp
 
