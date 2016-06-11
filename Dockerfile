@@ -7,7 +7,7 @@ RUN apt-get update && apt-get install -y \
     libmysqlclient-dev \
     mysql-client \
     nginx \
-    supervisor \
+    supervisor
 
 RUN mkdir /chirp
 ADD . /chirp
@@ -15,9 +15,10 @@ ADD . /chirp
 WORKDIR /chirp
 RUN pip install -r requirements.txt
 
-
 # Configure Nginx
 RUN rm /etc/nginx/sites-enabled/default
 RUN ln -s /chirp/.deploy/nginx.conf /etc/nginx/sites-enabled/chirp.conf
+EXPOSE 80
+
 RUN uwsgi --ini uwsgi.ini
 RUN service nginx restart
