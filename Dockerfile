@@ -13,12 +13,17 @@ RUN mkdir /chirp
 ADD . /chirp
 
 WORKDIR /chirp
+RUN pip install --upgrade pip
 RUN pip install -r requirements.txt
 
-# Configure Nginx
+
+# Configure Nginx and uwsgi
 RUN rm /etc/nginx/sites-enabled/default
 RUN ln -s /chirp/.deploy/nginx.conf /etc/nginx/sites-enabled/chirp.conf
-EXPOSE 80
+RUN ln -s /chirp/.deploy/supervisord.conf /etc/supervisor/conf.d/
+# RUN service nginx restart
+# RUN uwsgi --ini uwsgi.ini
 
-RUN uwsgi --ini uwsgi.ini
-RUN service nginx restart
+EXPOSE 80
+CMD ["supervisord", "-n"]
+
